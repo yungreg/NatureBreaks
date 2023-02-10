@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using NatureBreaks.Interfaces;
 using NatureBreaks.Models;
-using NatureBreaks.Repositories;
 
 namespace NatureBreaks.Controllers
 {

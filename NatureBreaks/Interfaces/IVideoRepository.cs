@@ -1,7 +1,7 @@
 ﻿using NatureBreaks.Models;
 using System.Collections.Generic;
 
-namespace NatureBreaks.Repositories
+namespace NatureBreaks.Interfaces
 {
     public interface IVideoRepository
     {

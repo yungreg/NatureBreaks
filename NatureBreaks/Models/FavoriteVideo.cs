@@ -2,7 +2,7 @@
 
 namespace NatureBreaks.Models
 {
-    public class FavoriteVideos
+    public class FavoriteVideo
     {
         public int Id { get; set; }
         [Required]
