@@ -1,4 +1,4 @@
-//^below is all my previous code. refactor this with what you copied.
+//^below is all my previous code. refactor this with what you copied, and see if it will work somehow.
 // import { Link, useNavigate } from "react-router-dom";
 // import "./NavBar.css";
 

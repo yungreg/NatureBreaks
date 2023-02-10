@@ -6,13 +6,13 @@ using NatureBreaks.Models;
 
 namespace NatureBreaks.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
-    public class VideosController : ControllerBase
+    public class VideoController : ControllerBase
     {
         private readonly IVideoRepository _videoRepository;
-        public VideosController(IVideoRepository videoRepository)
+        public VideoController(IVideoRepository videoRepository)
         {
             _videoRepository = videoRepository;
         }

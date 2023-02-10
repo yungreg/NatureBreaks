@@ -26,8 +26,8 @@ namespace NatureBreaks.Repositories
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
-                {
-                    cmd.CommandText = "SELECT Id, UserId, VideoId FROM FavoriteVideo;";
+                { //create the sql query for this to join the video object with the videoId
+                    cmd.CommandText = "SELECT fv.Id, fv.UserId, fv.VideoId, v.Id, v.NatureTypeId, v.UserId, v.Season, v.VideoName, v.VideoUrl, v.ClosestMajorCity FROM Video v JOIN FavoriteVideos fv on fv.VideoId = v.Id";
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         var favoriteVideos = new List<FavoriteVideo>();
@@ -37,7 +37,17 @@ namespace NatureBreaks.Repositories
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 VideoId = reader.GetInt32(reader.GetOrdinal("VideoId")),
-                                UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                Video = new Video()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    NatureTypeId = reader.GetInt32(reader.GetOrdinal("NatureTypeId")),
+                                    UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                    Season = reader.GetString(reader.GetOrdinal("Season")),
+                                    VideoName = reader.GetString(reader.GetOrdinal("VideoName")),
+                                    VideoUrl = reader.GetString(reader.GetOrdinal("VideoUrl")),
+                                    ClosestMajorCity = reader.GetString(reader.GetOrdinal("ClosestMajorCity")),
+                                },
+                            UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
                             };
                             favoriteVideos.Add(favoriteVideo);
                         }
@@ -55,8 +65,12 @@ namespace NatureBreaks.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 { //these need to be join tables
-                    cmd.CommandText = @"SELECT Id, UserId, VideoId FROM FavoriteVideo;
-                         WHERE Id = @id;";
+                    cmd.CommandText = @"SELECT fv.Id, fv.UserId, fv.VideoId,
+                        v.Id, v.NatureTypeId, v.UserId, v.Season, v.VideoName, v.VideoUrl, v.ClosestMajorCity
+ 
+                        FROM Video v
+                        JOIN FavoriteVideos fv on fv.VideoId = v.Id;
+                        WHERE Id = @id;";
                     cmd.Parameters.AddWithValue("@id", id);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
@@ -68,6 +82,16 @@ namespace NatureBreaks.Repositories
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 VideoId = reader.GetInt32(reader.GetOrdinal("VideoId")),
+                                Video = new Video()
+                                {
+                                    Id = reader.GetInt32(reader.GetOrdinal("Id")),
+                                    NatureTypeId = reader.GetInt32(reader.GetOrdinal("NatureTypeId")),
+                                    UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                    Season = reader.GetString(reader.GetOrdinal("Season")),
+                                    VideoName = reader.GetString(reader.GetOrdinal("VideoName")),
+                                    VideoUrl = reader.GetString(reader.GetOrdinal("VideoUrl")),
+                                    ClosestMajorCity = reader.GetString(reader.GetOrdinal("ClosestMajorCity")),
+                                },
                                 UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
                             };
                         }
@@ -78,14 +102,14 @@ namespace NatureBreaks.Repositories
         }
 
         public void AddFavorite(FavoriteVideo favoriteVideo)
-        {
+        { //question for taylopr: do i need a join Query here for teh structure of my app? i figure if I just add teh userID to their favrites, when the GETBYID or GetAll for favorite videos runs THAT query would run it's own join tyable query, and just grab teh info then. seems like that would both speed up runtime, and make the back end hold less data. am I thinking ofthat correctly?  
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO FavoriteVideo (Id, UserId, VideoId)
+                        INSERT INTO FavoriteVideos (Id, UserId, VideoId)
                         OUTPUT INSERTED.ID
                         VALUES (@id, @userid, @videoid)";
                     cmd.Parameters.AddWithValue("@id", favoriteVideo.Id);
@@ -103,7 +127,7 @@ namespace NatureBreaks.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = "DELETE FROM FavoiteVideo WHERE Id = @id";
+                    cmd.CommandText = "DELETE FROM FavoiteVideos WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", id);
 
                     cmd.ExecuteNonQuery();

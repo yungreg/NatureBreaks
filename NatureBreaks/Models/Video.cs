@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace NatureBreaks.Models
@@ -15,6 +16,9 @@ namespace NatureBreaks.Models
         public int NatureTypeId{ get; set; }
         [Required]
         public int UserId { get; set; }
+
+        // this is to be a list of IDs that are the users that have favorited thsi video.
+        public List<int> UsersThatFavorited { get; set;}
 
         [Required]
         [StringLength(255, MinimumLength = 1)]
