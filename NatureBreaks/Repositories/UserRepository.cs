@@ -8,7 +8,7 @@ using NatureBreaks.Interfaces;
 
 namespace NatureBreaks.Repositories
 {
-    [Authorize]
+    //[Authorize]
     public class UserRepository : BaseRepository, IUserRepository 
         {
         private readonly string _connectionString;

@@ -31,8 +31,11 @@ namespace NatureBreaks
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IVideoRepository, VideoRepository>();
 
+            services.AddTransient<IVideoRepository, VideoRepository>();
+            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IFavoriteVideosRepository, FavoriteVideosRepository>();
+            services.AddTransient<INatureTypeRepository, NatureTypeRepository>();
             var firebaseProjectId = Configuration.GetValue<string>("FirebaseProjectId");
             var googleTokenUrl = $"https://securetoken.google.com/{firebaseProjectId}";
             services
@@ -53,7 +56,27 @@ namespace NatureBreaks
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "NatureBreaks", Version = "v1" });
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "NatureBreaks", Version = "v1" });
+
+            var securitySchema = new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                BearerFormat = "JWT",
+                Description = "JWT Authorization header using the Bearer scheme.",
+                Type = SecuritySchemeType.ApiKey,
+                In = ParameterLocation.Header,
+                Reference = new OpenApiReference
+                {
+                    Id = "Bearer",
+                    Type = ReferenceType.SecurityScheme,
+                }
+            };
+
+            c.AddSecurityDefinition("Bearer", securitySchema);
+            c.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                { securitySchema, new[] { "Bearer" } }
+            });
             });
 
         }

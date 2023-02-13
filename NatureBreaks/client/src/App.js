@@ -1,28 +1,26 @@
-import React from "react";
-
+import React, { useEffect, useState } from "react";
 import "./App.css";
-import { Spinner } from "reactstrap"; //get rid of this later when you use ReactDnD
-import VideoList from "./components/VideoList";
+import { Spinner } from "reactstrap";
 import Header from "./components/Header";
 import ApplicationViews from "./components/ApplicationViews";
 import { BrowserRouter } from "react-router-dom";
-import { onLoginStatusChange, me } from "./modules/authManager";
+import { onLoginStatusChange } from "./modules/authManager";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [user, setUser] = useState(null);
+  // const [userProfile, setUserProfile] = useState(null);
 
   useEffect(() => {
     onLoginStatusChange(setIsLoggedIn);
   }, []);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      me().then(setUserProfile);
-    } else {
-      setUserProfile(null);
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (isLoggedIn) {
+  //     me().then(setUserProfile);
+  //   } else {
+  //     setUserProfile(null);
+  //   }
+  // }, [isLoggedIn]);
 
   // The "isLoggedIn" state variable will be null until //  the app's connection to firebase has been established.
   //  Then it will be set to true or false by the "onLoginStatusChange" function
@@ -34,7 +32,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <Header isLoggedIn={isLoggedIn} userProfile={userProfile} />
+        <Header isLoggedIn={isLoggedIn} />
         <ApplicationViews isLoggedIn={isLoggedIn} />
       </BrowserRouter>
     </div>
@@ -42,5 +40,3 @@ function App() {
 }
 
 export default App;
-
-//& <VideoList /> <--where does this need to go?

@@ -9,5 +9,6 @@ namespace NatureBreaks.Interfaces
         void DeleteNatureTypeById(int id);
         List<NatureType> GetAllNatureTypes();
         NatureType GetNatureTypeById(int id);
+        void UpdateNatureType(NatureType natureType);
     }
 }

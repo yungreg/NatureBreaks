@@ -20,7 +20,7 @@ export default function Login() {
     <Form onSubmit={loginSubmit}>
       <fieldset>
         <FormGroup>
-          <Label for="email">Email?</Label>
+          <Label for="email">Email</Label>
           <Input
             id="email"
             type="text"
@@ -29,7 +29,7 @@ export default function Login() {
           />
         </FormGroup>
         <FormGroup>
-          <Label for="password">Password?</Label>
+          <Label for="password">Password</Label>
           <Input
             id="password"
             type="password"
@@ -40,7 +40,7 @@ export default function Login() {
           <Button>Login</Button>
         </FormGroup>
         <em>
-          Not signed up? <Link to="/register">Become a Break Taker</Link>
+          Not registered? <Link to="/register">Register</Link>
         </em>
       </fieldset>
     </Form>

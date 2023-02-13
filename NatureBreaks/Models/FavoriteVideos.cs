@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace NatureBreaks.Models
 {
-    public class FavoriteVideo
+    public class FavoriteVideos
     {
         public int Id { get; set; }
         
