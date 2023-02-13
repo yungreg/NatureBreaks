@@ -14,3 +14,4 @@
  --   JOIN FavoriteVideos fv on fv.VideoId = v.Id;
 
  Select * From [User]
+ Select * From Video

@@ -19,7 +19,7 @@ export default function Header({ isLoggedIn, userProfile }) {
     <div>
       <Navbar color="dark" dark expand="md">
         <NavbarBrand tag={RRNavLink} to="/">
-          Grace Hopper Wisdom
+          Nature Break!
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
@@ -58,15 +58,16 @@ export default function Header({ isLoggedIn, userProfile }) {
               </>
             )}
           </Nav>
+
           <Nav navbar>
             <NavItem>
               <a
                 aria-current="page"
                 className="nav-link"
-                href="https://www.youtube.com/watch?v=3N_ywhx6_K0"
+                href="https://www.youtube.com/embed/uihTWvgRGEQ"
                 target="_new"
               >
-                Grace Hopper on Letterman
+                Need a Quick Break?
               </a>
             </NavItem>
             {userProfile && (

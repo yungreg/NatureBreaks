@@ -1,7 +1,6 @@
 import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import VideoList from "./VideoList";
-import Video from "./Video";
 import Login from "./Login";
 import Register from "./Register";
 
@@ -18,6 +17,7 @@ export default function ApplicationViews({ isLoggedIn }) {
           element={isLoggedIn ? <QuoteAddForm /> : <Navigate to="/login" />}
         /> */}
         <Route path="login" element={<Login />} />
+        <Route path="videolist" element={<VideoList />} />
         <Route path="register" element={<Register />} />
         <Route
           path="*"
