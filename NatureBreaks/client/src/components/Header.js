@@ -1,7 +1,3 @@
-//
-
-//& below is all my previous code. refactor this with what you copied, and see if it will work somehow.
-
 import React, { useState } from "react";
 import { NavLink as RRNavLink } from "react-router-dom";
 import {
@@ -62,16 +58,15 @@ export default function Header({ isLoggedIn, userProfile }) {
               </>
             )}
           </Nav>
-
           <Nav navbar>
             <NavItem>
               <a
                 aria-current="page"
                 className="nav-link"
-                href="https://www.youtube.com/shorts/DiMaFbpKAjI"
+                href="https://www.youtube.com/watch?v=3N_ywhx6_K0"
                 target="_new"
               >
-                THis is proof this worked
+                Grace Hopper on Letterman
               </a>
             </NavItem>
             {userProfile && (

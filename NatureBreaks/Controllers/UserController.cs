@@ -6,7 +6,7 @@ using NatureBreaks.Models;
 
 namespace NatureBreaks.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class UserController : ControllerBase

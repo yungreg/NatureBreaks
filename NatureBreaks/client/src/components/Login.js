@@ -20,19 +20,21 @@ export default function Login() {
     <Form onSubmit={loginSubmit}>
       <fieldset>
         <FormGroup>
-          <Label for="email">Email?</Label>
+          <Label for="email"></Label>
           <Input
             id="email"
             type="text"
+            placeholder="Email?"
             autoFocus
             onChange={(e) => setEmail(e.target.value)}
           />
         </FormGroup>
         <FormGroup>
-          <Label for="password">Password?</Label>
+          <Label for="password"></Label>
           <Input
             id="password"
             type="password"
+            placeholder="Password?"
             onChange={(e) => setPassword(e.target.value)}
           />
         </FormGroup>
@@ -40,7 +42,8 @@ export default function Login() {
           <Button>Login</Button>
         </FormGroup>
         <em>
-          Not signed up? <Link to="/register">Become a Break Taker</Link>
+          Not a Break Taker yet?
+          <Link to="/register">Become a Break Taker here!</Link>
         </em>
       </fieldset>
     </Form>

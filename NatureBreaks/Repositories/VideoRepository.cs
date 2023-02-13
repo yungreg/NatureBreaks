@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
@@ -7,6 +7,7 @@ using NatureBreaks.Interfaces;
 
 namespace NatureBreaks.Repositories
 {
+
     public class VideoRepository : BaseRepository, IVideoRepository
     {
         private readonly string _connectionString;

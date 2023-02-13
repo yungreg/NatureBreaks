@@ -8,7 +8,7 @@ using NatureBreaks.Interfaces;
 
 namespace NatureBreaks.Repositories
 {
-    [Authorize]
+    //[Authorize]
     public class NatureTypeRepository : BaseRepository, INatureTypeRepository
     {
         private readonly string _connectionString;
@@ -57,7 +57,7 @@ namespace NatureBreaks.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, NatureTypeName FROM NatureType;
+                    cmd.CommandText = @"SELECT Id, NatureTypeName FROM NatureType
                          WHERE Id = @id;";
                     cmd.Parameters.AddWithValue("@id", id);
 
@@ -95,6 +95,25 @@ namespace NatureBreaks.Repositories
                 }
             }
         }
+
+        public void UpdateNatureType(NatureType natureType)
+        {
+            using (var conn = Connection)
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                        UPDATE NatureType
+                           SET NatureTypeName = @naturetypename, 
+                         WHERE Id = @id";
+                    cmd.Parameters.AddWithValue("@id", natureType.NatureTypeName);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public void DeleteNatureTypeById(int id)
         {
             using (var conn = Connection)

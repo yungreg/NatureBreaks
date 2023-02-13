@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import "firebase/auth";
 
-const _apiUrl = "/api/user";
+const _apiUrl = "/api/userprofile";
 
 const _doesUserExist = (firebaseUserId) => {
   return getToken().then((token) =>
@@ -97,12 +97,6 @@ let _onLoginStatusChangedHandler = () => {
 // You might argue that this is all wrong and you might be right, but I promise there are reasons,
 //   and at least this mess is relatively contained in one place.
 export const onLoginStatusChange = (onLoginStatusChangedHandler) => {
-  if (!user) {
-    isLoggedIn = false;
-  } else {
-    isLoggedIn = true;
-  }
-
   // Here we take advantage of the firebase 'onAuthStateChanged' observer in a couple of different ways.
   //
   // The first callback, 'initialLoadLoginCheck', will run once as the app is starting up and connecting to firebase.
