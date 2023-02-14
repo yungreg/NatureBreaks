@@ -1,4 +1,4 @@
-USE [master]
+﻿USE [master]
 GO
 
 IF db_id('NatureBreaker') IS NOT NULL
@@ -20,7 +20,7 @@ CREATE TABLE [User] (
   [FirstName] VARCHAR(25) NOT NULL,
   [Email] VARCHAR(255) NOT NULL,
   [ProfileImage] VARCHAR(255) NOT NULL,
-  [IsAdmin] BIT NOT NULL DEFAULT 0
+  [UserTypeId] int NOT NULL DEFAULT 0
 )
 GO
 
@@ -29,6 +29,13 @@ CREATE TABLE [NatureType] (
   [NatureTypeName] VARCHAR(50) NOT NULL
 )
 GO
+
+CREATE TABLE [UserType] (
+  [Id] int PRIMARY KEY IDENTITY(1, 1),
+  [Name] NVARCHAR(255) NOT NULL
+)
+GO
+​
 
 CREATE TABLE [Video] (
   [Id] INTEGER PRIMARY KEY IDENTITY(1, 1),
@@ -63,6 +70,12 @@ GO
 ALTER TABLE [NatureType] ADD FOREIGN KEY ([Id]) REFERENCES [Video] ([NatureTypeId])
 GO
 
+ALTER TABLE [User] ADD FOREIGN KEY ([UserTypeId]) REFERENCES [UserType] ([Id])
+GO
+​
+
+-- create alter table for 
+
 ALTER TABLE [FavoriteVideos] ADD FOREIGN KEY ([VideoId]) REFERENCES [Video] ([Id])
 GO
 
@@ -82,15 +95,22 @@ GO
 --* TODO: UPDATE USER INTERST STATEMENTS TO INCLUDE NEW ISADMIN COLUMN VALUES
 SET IDENTITY_INSERT [User] ON
 INSERT INTO [User]
-    ([Id], [FirebaseUserId], [FirstName], [Email], [ProfileImage], [IsAdmin])
+    ([Id], [FirebaseUserId], [FirstName], [Email], [ProfileImage], [UserTypeId])
 VALUES
     (1, 'AGycj79VzTPpQYZLEzRYWBYZpo22','Reggie', 'reggie@williams.com', 'https://i0.wp.com/www.beyondthestagemagazine.com/wp-content/uploads/2019/11/reggie1.gif?resize=500%2C640&ssl=1', 1),
 
-    (2, 'dCPTASc5rvOAm93iHFNJSgOhRRl1','Mononoke-Hime', 'wolfgirl@mononoke.com', 'https://res.cloudinary.com/jerrick/image/upload/v1621006227/609e9793c99922001ef7cd9a.gif', 0),
+    (2, 'dCPTASc5rvOAm93iHFNJSgOhRRl1','Mononoke-Hime', 'wolfgirl@mononoke.com', 'https://res.cloudinary.com/jerrick/image/upload/v1621006227/609e9793c99922001ef7cd9a.gif', 2),
 
-    (3, 'fUQIlihnadbLXfB9OjTJJf9cmdd2' , 'Kiki', 'kiki@kikisdeliveryservice.com', 'https://media.tenor.com/eTLScbyWqp8AAAAd/kikis-delivery-service-ghibli.gif', 0);
+    (3, 'fUQIlihnadbLXfB9OjTJJf9cmdd2' , 'Kiki', 'kiki@kikisdeliveryservice.com', 'https://media.tenor.com/eTLScbyWqp8AAAAd/kikis-delivery-service-ghibli.gif', 2);
 SET IDENTITY_INSERT [User] OFF
 
+SET IDENTITY_INSERT [UserType] ON 
+INSERT INTO [UserType]
+    ([Id], [Name])
+VALUES
+    (1, 'Admin'),
+    (2, 'User');
+    SET IDENTITY_INSERT [UserType] OFF
 
 SET IDENTITY_INSERT [NatureType] ON 
 INSERT INTO [NatureType]
