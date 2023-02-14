@@ -8,7 +8,9 @@ namespace NatureBreaks.Interfaces
         void AddUser(User user);
         void DeleteUserById(int id);
         List<User> GetAllUsers();
-
+        User GetByFirebaseUserId(string firebaseUserId);
         User GetUserById(int id);
+
+        User GetCurrentUser(string firebaseuserid);
     }
 }
