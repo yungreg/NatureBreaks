@@ -1,5 +1,5 @@
 // thsi will set the homepge url
-const baseUrl = "/api/videos";
+const baseUrl = "/api/video";
 
 export const getAllVideos = () => {
   return fetch(baseUrl).then((res) => res.json());
