@@ -19,16 +19,24 @@ export default function Header({ isLoggedIn, userProfile }) {
     <div>
       <Navbar color="dark" dark expand="md">
         <NavbarBrand tag={RRNavLink} to="/">
-          Nature Break!
+          Nature Breaks! "clear your mind, reclaim your time!"
         </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="mr-auto" navbar>
+            {/* ADMIN USER */}
             {isLoggedIn && (
+              //todo correct this to show restrict add to admins
+              //user.userTypeId == 1
               <>
                 <NavItem>
                   <NavLink tag={RRNavLink} to="/add">
-                    Add Quote
+                    Add A New Break
+                  </NavLink>
+                </NavItem>
+                <NavItem>
+                  <NavLink tag={RRNavLink} to="/favoritebreaks">
+                    Your Favorite Breaks
                   </NavLink>
                 </NavItem>
                 <NavItem>
@@ -43,6 +51,7 @@ export default function Header({ isLoggedIn, userProfile }) {
                 </NavItem>
               </>
             )}
+
             {!isLoggedIn && (
               <>
                 <NavItem>

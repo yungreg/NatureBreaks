@@ -12,9 +12,5 @@
  
  --FROM Video v
  --   JOIN FavoriteVideos fv on fv.VideoId = v.Id;
+ SELECT * from video
 
- SELECT u.Id, u.FirebaseUserId, u.FirstName, u.Email, u.UserTypeId,
-                               ut.Name AS UserTypeName
-                          FROM [User] u
-                               LEFT JOIN UserType ut on u.UserTypeId = ut.Id
-                         WHERE FirebaseUserId = 'AGycj79VzTPpQYZLEzRYWBYZpo22'

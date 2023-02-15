@@ -3,6 +3,8 @@ import "firebase/auth";
 
 const _apiUrl = "/api/user";
 
+const USERTYPE = 2;
+
 const _doesUserExist = (firebaseUserId) => {
   return getToken().then((token) =>
     fetch(`${_apiUrl}/DoesUserExist/${firebaseUserId}`, {
@@ -70,6 +72,7 @@ export const register = (User, password) => {
       _saveUser({
         ...User,
         firebaseUserId: createResponse.user.uid,
+        userTypeId: USERTYPE,
       }).then(() => _onLoginStatusChangedHandler(true))
     );
 };

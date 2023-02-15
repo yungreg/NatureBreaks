@@ -94,7 +94,7 @@ namespace NatureBreaks.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO [User] (Id, FirebaseUserId, FirstName, Email, ProfileImage, UserTypeId)
+                        INSERT INTO [User] (FirebaseUserId, FirstName, Email, ProfileImage, UserTypeId)
                         OUTPUT INSERTED.ID
                         VALUES (@firebaseuserid, @firstname, @email, @profileimage, @usertypeid)";
                     cmd.Parameters.AddWithValue("@firebaseuserid", user.FirebaseUserId);
