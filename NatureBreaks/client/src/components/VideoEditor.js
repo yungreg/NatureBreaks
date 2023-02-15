@@ -1,8 +1,8 @@
 /*
-todo: edit this page to be teh Video uPLload form for an admin user
-todo: create a state for nature types to be shown in the upload form's select box 
-todo: create a user for nature types to be shown in the upload form's select box 
-todo: figure out map fn to map through select box chocies
+todo: edit this page to be teh Video edit form for an admin user
+*todo: create a state for nature types to be shown in the upload form's dropdown box 
+*todo: create a user for nature types to be shown in the upload form's select box 
+*todo: figure out map fn to map through select box chocies
 todo: enable save button properly
 */
 
@@ -10,13 +10,19 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
 import { addVideo } from "../modules/videoManager";
-import { VideoList } from "./VideoList";
 
-export default function VideoAddForm() {
+export default function VideoEditor() {
   const navigate = useNavigate();
-  const [video, setVideo] = useState();
+  const [video, setVideo] = useState({
+    season: "",
+    natureTypeId: 1,
+    userId: 1,
+    closestMajorCity: "",
+    videoName: "",
+    videoUrl: "",
+  });
 
-  //*hold and observe NatureType State
+  //*hold and observe NatureType State for select box
   const [natureType, setNatureType] = useState([]);
   useEffect(() => {
     fetch(`https://localhost:5001/api/naturetype`)
@@ -42,13 +48,13 @@ export default function VideoAddForm() {
     // e.preventDefault(); //todo: reactivate this at teh rigth time
     addVideo({ video })
       .then(() => navigate("/"))
-      .catch((err) => alert(`An error ocurred: ${err.message}`));
+      .catch((err) => alert(`I couldn't work: ${err.message}`));
   };
 
   return (
     <Form onSubmit={submitForm}>
       <FormGroup>
-        <Label for="videoName">What's the Break's name? </Label>
+        <Label for="videoName">What's the Break's new name? </Label>
         <Input
           id="videoName"
           type="textarea"
@@ -57,7 +63,7 @@ export default function VideoAddForm() {
         />
       </FormGroup>
       <FormGroup>
-        <Label for="videoSeason">Season? </Label>
+        <Label for="videoSeason">Same season? </Label>
         <Input
           id="videoSeason"
           type="textarea"
@@ -66,7 +72,7 @@ export default function VideoAddForm() {
         />
       </FormGroup>
       <FormGroup>
-        <Label for="videoUrl">Video Link?</Label>
+        <Label for="videoUrl">Is the Video's URL the same?</Label>
         <Input
           id="videoUrl"
           type="textarea"
@@ -85,10 +91,7 @@ export default function VideoAddForm() {
           ))}
         </Input>
       </FormGroup>
-      {/* picking a user */}
-      {/* 
-//todo: create a map fn for this
-*/}
+      {/* todo: create a map fn for this */}
       <FormGroup>
         <Label for="userSelect">Who's making this Break? </Label>
         <Input type="select" name="select" id="userSelect">
@@ -114,26 +117,9 @@ export default function VideoAddForm() {
         //     handleSaveButtonClick(click);
         //   }}
         >
-          Make your Break!
+          Change & Save This Break!
         </Button>
       </FormGroup>
     </Form>
   );
-}
-
-{
-  /* <FormGroup>
-<Label for="natureTypeSelect">Select A Nature Type:</Label>
-<Input id="natureTypeSelect" name="select" type="select">
-  <option>Moving Water</option>
-  <option>Mountains</option>
-  <option>Rainfall</option>
-  <option>Tree Talk</option>
-  <option>Woodland</option>
-  <option>Snow</option>
-  <option>Ice</option>
-  <option>Wildlife</option>
-  <option>Beach</option>
-</Input>
-</FormGroup> */
 }
