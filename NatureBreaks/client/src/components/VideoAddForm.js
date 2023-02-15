@@ -39,7 +39,7 @@ export default function VideoAddForm() {
   }, []); //i think this is incorrect to get the map going
 
   const submitForm = (video) => {
-    // e.preventDefault();
+    // e.preventDefault(); //todo: reactivate this at teh rigth time
     addVideo({ video })
       .then(() => navigate("/"))
       .catch((err) => alert(`An error ocurred: ${err.message}`));
@@ -109,7 +109,13 @@ export default function VideoAddForm() {
         />
       </FormGroup>
       <FormGroup>
-        <Button>Save</Button>
+        <Button
+        //   onClick={(click) => {
+        //     handleSaveButtonClick(click);
+        //   }}
+        >
+          Make your Break!
+        </Button>
       </FormGroup>
     </Form>
   );

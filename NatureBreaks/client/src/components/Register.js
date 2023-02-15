@@ -6,9 +6,10 @@ import { register } from "../modules/authManager";
 export default function Register() {
   const navigate = useNavigate();
 
-  const [name, setName] = useState();
+  const [firstName, setFirstName] = useState();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [profileImage, setProfileImage] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
 
   const registerClick = (e) => {
@@ -16,8 +17,8 @@ export default function Register() {
     if (password && password !== confirmPassword) {
       alert("Passwords don't match. Try again.");
     } else {
-      const userProfile = { name, email };
-      register(userProfile, password).then(() => navigate("/"));
+      const userProfile = { firstName, email, profileImage };
+      register(userProfile, password, profileImage).then(() => navigate("/"));
     }
   };
 
@@ -25,12 +26,22 @@ export default function Register() {
     <Form onSubmit={registerClick}>
       <fieldset>
         <FormGroup>
-          <Label htmlFor="name">Name</Label>
+          <Label htmlFor="firstName">First Name?</Label>
           <Input
             id="name"
             type="text"
             autoFocus
-            onChange={(e) => setName(e.target.value)}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+        </FormGroup>
+        <FormGroup>
+          <Label htmlFor="profileImage">Profile Image?</Label>
+          <Input
+            id="name"
+            type="text"
+            autoFocus
+            placeholder="((.jpeg, .png, .gif only))"
+            onChange={(e) => setProfileImage(e.target.value)}
           />
         </FormGroup>
         <FormGroup>

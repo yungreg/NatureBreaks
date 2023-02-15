@@ -42,7 +42,8 @@ namespace NatureBreaks.Controllers
         public IActionResult AddUser(User user)
         {
             _userRepository.AddUser(user);
-            return CreatedAtAction("Get", new { id = user.Id }, user);
+            return CreatedAtAction(
+                nameof(GetByFirebaseUserId), new { firebaseUserId = user.FirebaseUserId }, user);
         }
 
         // https://localhost:5001/api/user/5
