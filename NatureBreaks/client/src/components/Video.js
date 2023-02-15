@@ -1,6 +1,10 @@
 import React from "react";
 import { Card, CardBody } from "reactstrap";
 
+/*
+todo: make a button here that allows you to save a video to a profile
+*/
+
 const Video = ({ video }) => {
   return (
     <Card>
