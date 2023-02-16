@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Card, CardBody } from "reactstrap";
+import { Card, CardBody, Button } from "reactstrap";
 import VideoEditor from "./VideoEditor.js";
 
 /*
@@ -10,7 +10,9 @@ todo: make a button here that allows you to save a video to a profile
 const Video = ({ video }) => {
   const deleteButton = () => {
     return (
-      <button
+      <Button
+        color="danger"
+        outline
         className="session__btn-delete"
         onClick={() => {
           fetch(`https://localhost:5001/api/video/${video.id}`, {
@@ -23,12 +25,12 @@ const Video = ({ video }) => {
         }}
       >
         Delete This Break?
-      </button>
+      </Button>
     );
   };
   return (
     <Card>
-      <Link to={`/videoeditor/${video.id}`}>
+      <Link to={`/video/${video.id}`}>
         {/* link will go here that takes you to the break page for deleting */}
         <strong>{video.videoName}</strong>
       </Link>
@@ -39,12 +41,44 @@ const Video = ({ video }) => {
           height="315"
           src={video.videoUrl}
           title="YouTube video player"
-          frameborder="0"
+          frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
+          allowFullScreen
         ></iframe>
         {deleteButton()}
-        {VideoEditor()}
+        <div>
+          <Button
+            color="success"
+            onClick={() => {
+              fetch(`api/favoritevideos/${video.id}`, {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  userId: 0,
+                  videoId: 0,
+                  video: {
+                    id: 0,
+                    season: "",
+                    natureTypeId: 0,
+                    userId: 0,
+                    usersThatFavorited: 0,
+                    closestMajorCity: "",
+                    videoName: "",
+                    videoUrl: "",
+                  },
+                }),
+              })
+                // .then((response) => response.json())
+                .then(() => {
+                  window.alert("Break Favorited! Yahoo!");
+                });
+            }}
+          >
+            Favorite This Break?
+          </Button>
+        </div>
       </CardBody>
     </Card>
   );

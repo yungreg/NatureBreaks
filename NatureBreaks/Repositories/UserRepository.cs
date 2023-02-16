@@ -61,7 +61,7 @@ namespace NatureBreaks.Repositories
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"SELECT Id, FirebaseUserId, FirstName, Email, ProfileImage, IsAdmin FROM [User];
+                    cmd.CommandText = @"SELECT Id, FirebaseUserId, FirstName, Email, ProfileImage, IsAdmin FROM [User]
                          WHERE Id = @id;";
                     cmd.Parameters.AddWithValue("@id", id);
 

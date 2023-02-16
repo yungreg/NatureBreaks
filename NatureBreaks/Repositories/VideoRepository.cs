@@ -124,7 +124,7 @@ namespace NatureBreaks.Repositories
                                Season = @season,
                                VideoName = @videoname,
                                VideoUrl = @videourl,
-                               ClosestMajorCity = @closestmajorcity,
+                               ClosestMajorCity = @closestmajorcity
                          WHERE Id = @id";
                     cmd.Parameters.AddWithValue("@id", vid.Id);
                     cmd.Parameters.AddWithValue("@naturetypeid", vid.NatureTypeId);

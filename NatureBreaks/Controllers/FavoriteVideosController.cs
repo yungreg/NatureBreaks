@@ -49,7 +49,7 @@ namespace NatureBreaks.Controllers
         }
 
         // put a favorite video in someones list. also important
-        [HttpPut("{id}")]
+        [HttpPost("{id}")]
         public IActionResult PutFavorite(int id, FavoriteVideos favoriteVideo)
         {
             if (id != favoriteVideo.Id)

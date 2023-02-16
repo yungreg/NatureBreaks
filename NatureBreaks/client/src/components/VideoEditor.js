@@ -9,10 +9,12 @@ todo: enable save button properly
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Form, FormGroup, Label, Input } from "reactstrap";
-import { addVideo } from "../modules/videoManager";
+import { getVideoById, addVideo } from "../modules/videoManager";
+import { useParams } from "react-router-dom";
 
 export default function VideoEditor() {
   const navigate = useNavigate();
+
   const [video, setVideo] = useState({
     season: "",
     natureTypeId: 1,
@@ -21,6 +23,9 @@ export default function VideoEditor() {
     videoName: "",
     videoUrl: "",
   });
+  const { videoId } = useParams();
+
+  // const [userChoices, setUserChoices] = useState({});
 
   //*hold and observe NatureType State for select box
   const [natureType, setNatureType] = useState([]);
@@ -33,7 +38,7 @@ export default function VideoEditor() {
       });
   }, []);
 
-  //todo: hold and observe User State
+  //* todo: hold and observe User State
   const [user, setUser] = useState([]);
   useEffect(() => {
     fetch(`https://localhost:5001/api/user`)
@@ -44,46 +49,89 @@ export default function VideoEditor() {
       });
   }, []);
 
-  const submitForm = (video) => {
-    // e.preventDefault(); //todo: reactivate this at teh rigth time
-    addVideo({ video })
-      .then(() => navigate("/"))
-      .catch((err) => alert(`I couldn't work: ${err.message}`));
+  //* todo for video State
+  useEffect(() => {
+    getVideoById(videoId).then((video) => setVideo(video));
+  }, []);
+
+  const handleInputChange = (event) => {
+    const copy = { ...video };
+    copy[event.target.id] = event.target.value;
+    setVideo(copy);
+  };
+
+  const handleEditButtonClick = (clickEvent) => {
+    clickEvent.preventDefault();
+    // const userChoices = {
+    //   season: video.season,
+    //   natureTypeId: video.natureTypeId,
+    //   userId: video.userId,
+    //   closestMajorCity: video.closestMajorCity,
+    //   videoName: video.videoName,
+    //   videoUrl: video.videoUrl,
+    // };
+
+    // if (
+    //   video.season &&
+    //   video.natureTypeId &&
+    //   video.userId &&
+    //   video.closestMajorCity &&
+    //   video.videoName &&
+    //   video.videoUrl
+    // ) {
+    fetch(`/api/video/${videoId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(video),
+    })
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) =>
+        alert(`I couldn't work: ${err.message}`).then(() => {
+          window.alert("Break updated! Back to your favorites...");
+        })
+      );
   };
 
   return (
-    <Form onSubmit={submitForm}>
+    <Form>
       <FormGroup>
+        <h2 className="videoEditor__Title">Update Your Nature Break!</h2>
         <Label for="videoName">What's the Break's new name? </Label>
         <Input
           id="videoName"
           type="textarea"
+          value={video.videoName}
           placeholder="Format: 'Nature Breaks = Nature Type 00X'"
-          onChange={(e) => setVideo(e.target.videoName)}
+          onChange={handleInputChange}
         />
       </FormGroup>
-      <FormGroup>
-        <Label for="videoSeason">Same season? </Label>
-        <Input
-          id="videoSeason"
-          type="textarea"
-          placeholder="What season was the Break? ex: 'Fall' or 'Winter'"
-          onChange={(e) => setVideo(e.target.season)}
-        />
-      </FormGroup>
+
       <FormGroup>
         <Label for="videoUrl">Is the Video's URL the same?</Label>
         <Input
           id="videoUrl"
           type="textarea"
+          value={video.videoUrl}
           placeholder="Note: be sure to use an EMBED link!"
-          onChange={(e) => setVideo(e.target.videoUrl)}
+          onChange={handleInputChange}
         />
       </FormGroup>
       {/* Select box for NatureTypes */}
       <FormGroup>
-        <Label for="natureTypeSelect">Select A Nature Type: </Label>
-        <Input type="select" name="select" id="natureTypeSelect">
+        <Label for="natureTypeSelect">
+          Select A Nature Type for this video:{" "}
+        </Label>
+        <Input
+          onChange={handleInputChange}
+          type="select"
+          value={video.natureTypeId}
+          name="select"
+          id="natureTypeId"
+        >
           {natureType.map((type) => (
             <option key={type.id} value={type.id}>
               {type.natureTypeName}
@@ -94,7 +142,13 @@ export default function VideoEditor() {
       {/* todo: create a map fn for this */}
       <FormGroup>
         <Label for="userSelect">Who's making this Break? </Label>
-        <Input type="select" name="select" id="userSelect">
+        <Input
+          onChange={handleInputChange}
+          type="select"
+          value={video.userId}
+          name="select"
+          id="userId"
+        >
           {user.map((person) => (
             <option key={person.id} value={person.id}>
               {person.firstName}
@@ -105,19 +159,20 @@ export default function VideoEditor() {
       <FormGroup>
         <Label for="videoCity">Closest Major City?</Label>
         <Input
-          id="videoCity"
-          type="textarea"
+          id="closestMajorCity"
+          type="text"
+          value={video.closestMajorCity}
           placeholder="What's the closest major city to the Break?"
-          onChange={(e) => setVideo(e.target.ClosestMajorCity)}
+          onChange={handleInputChange}
         />
       </FormGroup>
       <FormGroup>
         <Button
-        //   onClick={(click) => {
-        //     handleSaveButtonClick(click);
-        //   }}
+          color="warning"
+          outline
+          onClick={(clickEvent) => handleEditButtonClick(clickEvent)}
         >
-          Change & Save This Break!
+          Change & Save This Break?
         </Button>
       </FormGroup>
     </Form>

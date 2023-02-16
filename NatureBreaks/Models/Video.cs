@@ -9,16 +9,16 @@ namespace NatureBreaks.Models
         public int Id { get; set; }
 
         [Required]
-        [StringLength(7, MinimumLength = 4)]
+        [StringLength(7)]
         public string Season { get; set; }
 
         [Required]
-        public int NatureTypeId{ get; set; }
+        public int NatureTypeId { get; set; }
         [Required]
         public int UserId { get; set; }
 
         // this is to be a list of IDs that are the users that have favorited thsi video.
-        public List<int> UsersThatFavorited { get; set;}
+        public List<int> UsersThatFavorited { get; set; }
 
         [Required]
         [StringLength(255, MinimumLength = 1)]
