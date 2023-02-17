@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
+import { me } from "./modules/authManager";
 import { Spinner } from "reactstrap";
 import Header from "./components/Header";
 import ApplicationViews from "./components/ApplicationViews";
@@ -8,19 +9,19 @@ import { onLoginStatusChange } from "./modules/authManager";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
-  // const [userProfile, setUserProfile] = useState(null);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     onLoginStatusChange(setIsLoggedIn);
   }, []);
 
-  // useEffect(() => {
-  //   if (isLoggedIn) {
-  //     me().then(setUserProfile);
-  //   } else {
-  //     setUserProfile(null);
-  //   }
-  // }, [isLoggedIn]);
+  useEffect(() => {
+    if (isLoggedIn) {
+      me().then(setUser);
+    } else {
+      setUser(null);
+    }
+  }, [isLoggedIn]);
 
   // The "isLoggedIn" state variable will be null until //  the app's connection to firebase has been established.
   //  Then it will be set to true or false by the "onLoginStatusChange" function
@@ -33,7 +34,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Header isLoggedIn={isLoggedIn} />
-        <ApplicationViews isLoggedIn={isLoggedIn} />
+        <ApplicationViews isLoggedIn={isLoggedIn} user={user} />
       </BrowserRouter>
     </div>
   );

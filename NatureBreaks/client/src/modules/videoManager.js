@@ -2,6 +2,7 @@ import { getToken } from "./authManager";
 
 // thsi will set the homepge url
 const baseUrl = "/api/video";
+const faveUrl = "/api/favoritevideos";
 
 export const getAllVideos = () => {
   return fetch(baseUrl).then((res) => res.json());
@@ -14,6 +15,23 @@ export const addVideo = (vid) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(vid),
+  });
+};
+
+export const getAllFavorites = () => {
+  return getToken().then((token) => {
+    return fetch(faveUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      } else {
+        throw new Error("An unknown error has happened :/");
+      }
+    });
   });
 };
 

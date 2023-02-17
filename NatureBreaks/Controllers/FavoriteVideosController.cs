@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using NatureBreaks.Interfaces;
 using NatureBreaks.Models;
@@ -9,26 +9,29 @@ using NatureBreaks.Repositories;
 namespace NatureBreaks.Controllers
 {
     //activate this authorize after you have checked this controller with Postman!
-    //[Authorize] 
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class FavoriteVideosController : ControllerBase
     {
 
         private readonly IFavoriteVideosRepository _favoriteVideoRepository;
-        public FavoriteVideosController(IFavoriteVideosRepository favoriteVideoRepository)
+        private readonly IUserRepository _userRepository;
+        public FavoriteVideosController(IFavoriteVideosRepository favoriteVideoRepository, IUserRepository userRepository)
         {
             _favoriteVideoRepository = favoriteVideoRepository;
+            _userRepository = userRepository;
         }
 
-    
+
         // GET: api/<FavoriteVideoController>
         [HttpGet]
         public IActionResult GetAllFavorites()
         {
-            return Ok(_favoriteVideoRepository.GetAllFavorites());
+            var currentUser = GetCurrentUser();
+            return Ok(_favoriteVideoRepository.GetAllFavorites(currentUser.Id));
         }
-        
+
         // GET api/<FavoriteVideoController>/{id}
         [HttpGet("{id}")]
         public IActionResult GetFavoriteById(int id)
@@ -67,6 +70,12 @@ namespace NatureBreaks.Controllers
         {
             _favoriteVideoRepository.DeleteFavoriteById(id);
             return NoContent();
+        }
+
+        private User GetCurrentUser()
+        {
+            var firebaseUserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _userRepository.GetByFirebaseUserId(firebaseUserId);
         }
 
     }

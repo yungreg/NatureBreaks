@@ -3,8 +3,9 @@ import Video from "./Video";
 import { getAllVideos } from "../modules/videoManager";
 import { Col, Container, Row } from "reactstrap";
 
-const VideoList = () => {
+const VideoList = ({ user }) => {
   const [videos, setVideos] = useState([]);
+  const [currentUser, setCurrentUser] = useState({});
 
   const getVideos = () => {
     getAllVideos().then((videos) => setVideos(videos));
@@ -12,6 +13,7 @@ const VideoList = () => {
 
   useEffect(() => {
     getVideos();
+    setCurrentUser(user);
   }, []);
 
   return (
@@ -20,7 +22,7 @@ const VideoList = () => {
         <Col>
           <div className="row justify-content-center">
             {videos.map((video) => (
-              <Video video={video} key={video.id} />
+              <Video user={user} video={video} key={video.id} />
             ))}
           </div>
         </Col>

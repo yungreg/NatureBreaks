@@ -5,17 +5,8 @@ import VideoList from "./VideoList";
 
 //* todo: hold and observe User State
 
-const UserCard = () => {
+const UserCard = ({ user }) => {
   //* todo: hold and observe User State
-
-  const [user, setUser] = useState({});
-  useEffect(() => {
-    fetch(`https://localhost:5001/api/favoritebreaks/${user.id}`)
-      .then((res) => res.json())
-      .then((input) => {
-        setUser(input);
-      });
-  }, []);
 
   return (
     <>
@@ -24,13 +15,11 @@ const UserCard = () => {
           width: "18rem",
         }}
       >
-        <img alt="Sample" src="https://picsum.photos/300/200" />
+        <img alt="Sample" src={user?.profileImage} />
         <CardBody>
-          <CardTitle tag="h5"></CardTitle>
-          <CardSubtitle className="mb-2 text-muted" tag="h6">
-            {user?.firstName}
-          </CardSubtitle>
-          <CardText>{user.firstName}</CardText>
+          <CardTitle tag="h5">{user?.firstName} </CardTitle>
+          <CardSubtitle className="mb-2 text-muted" tag="h6"></CardSubtitle>
+          <CardText></CardText>
         </CardBody>
       </Card>
     </>

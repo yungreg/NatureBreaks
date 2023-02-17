@@ -7,7 +7,7 @@ namespace NatureBreaks.Interfaces
     {
         void AddFavorite(FavoriteVideos favoriteVideo);
         void DeleteFavoriteById(int id);
-        List<FavoriteVideos> GetAllFavorites();
-        FavoriteVideos GetFavoriteById(int id);
+        List<FavoriteVideos> GetAllFavorites(int id);
+        List<FavoriteVideos> GetFavoriteById(int id);
     }
 }

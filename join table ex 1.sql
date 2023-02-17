@@ -13,4 +13,3 @@
  --FROM Video v
  --   JOIN FavoriteVideos fv on fv.VideoId = v.Id;
  SELECT * from [FavoriteVideos]
-

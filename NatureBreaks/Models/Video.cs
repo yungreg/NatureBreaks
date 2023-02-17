@@ -14,22 +14,22 @@ namespace NatureBreaks.Models
 
         [Required]
         public int NatureTypeId { get; set; }
-        [Required]
+      
         public int UserId { get; set; }
 
         // this is to be a list of IDs that are the users that have favorited thsi video.
         public List<int> UsersThatFavorited { get; set; }
 
         [Required]
-        [StringLength(255, MinimumLength = 1)]
+        [StringLength(255)]
         public string ClosestMajorCity { get; set; }
 
         [Required]
-        [StringLength(255, MinimumLength = 1)]
+        [StringLength(255)]
         public string VideoName { get; set; }
 
         [Required]
-        [StringLength(255, MinimumLength = 4)]
+        [StringLength(255)]
         public string VideoUrl { get; set; }
     }
 }

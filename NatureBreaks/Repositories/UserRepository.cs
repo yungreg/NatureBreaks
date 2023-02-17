@@ -131,7 +131,7 @@ namespace NatureBreaks.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        SELECT u.Id, u.FirebaseUserId, u.FirstName, u.Email, u.UserTypeId,
+                        SELECT u.Id, u.FirebaseUserId, u.Profileimage , u.FirstName, u.Email, u.UserTypeId,
                                ut.Name AS UserTypeName
                           FROM [User] u
                                LEFT JOIN UserType ut on u.UserTypeId = ut.Id
@@ -150,6 +150,7 @@ namespace NatureBreaks.Repositories
                             FirebaseUserId = DbUtils.GetString(reader, "FirebaseUserId"),
                             FirstName = DbUtils.GetString(reader, "FirstName"),
                             Email = DbUtils.GetString(reader, "Email"),
+                            ProfileImage = reader.GetString(reader.GetOrdinal("ProfileImage")),
                             UserTypeId = DbUtils.GetInt(reader, "UserTypeId"),
                             UserType = new UserType()
                             {

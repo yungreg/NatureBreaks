@@ -7,7 +7,7 @@ import VideoEditor from "./VideoEditor.js";
 todo: make a button here that allows you to save a video to a profile
 */
 
-const Video = ({ video }) => {
+const Video = ({ video, user }) => {
   const deleteButton = () => {
     return (
       <Button
@@ -50,24 +50,14 @@ const Video = ({ video }) => {
           <Button
             color="success"
             onClick={() => {
-              fetch(`api/favoritevideos/${video.id}`, {
+              fetch(`https://localhost:5001/api/favoritevideos/`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                  userId: 0,
-                  videoId: 0,
-                  video: {
-                    id: 0,
-                    season: "",
-                    natureTypeId: 0,
-                    userId: 0,
-                    usersThatFavorited: 0,
-                    closestMajorCity: "",
-                    videoName: "",
-                    videoUrl: "",
-                  },
+                  userId: user?.id,
+                  videoId: video?.id,
                 }),
               })
                 // .then((response) => response.json())

@@ -22,7 +22,7 @@ namespace NatureBreaks.Controllers
         {
             return Ok(_videoRepository.GetAllVideos());
         }
-        
+
         // https://localhost:5001/api/video/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)

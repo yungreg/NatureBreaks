@@ -9,7 +9,7 @@ namespace NatureBreaks.Repositories
 {
     public class FavoriteVideosRepository : BaseRepository, IFavoriteVideosRepository
     {
-        
+
         private readonly string _connectionString;
         public FavoriteVideosRepository(IConfiguration configuration) : base(configuration)
         {
@@ -21,14 +21,14 @@ namespace NatureBreaks.Repositories
             get { return new SqlConnection(_connectionString); }
         }
 
-        public List<FavoriteVideos> GetAllFavorites()
+        public List<FavoriteVideos> GetAllFavorites(int id)
         {
             using (var conn = Connection)
             {
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 { //create the sql query for this to join the video object with the videoId
-                    cmd.CommandText = "SELECT fv.Id, fv.UserId, fv.VideoId, v.Id, v.NatureTypeId, v.UserId, v.Season, v.VideoName, v.VideoUrl, v.ClosestMajorCity FROM Video v JOIN FavoriteVideos fv on fv.VideoId = v.Id";
+                    cmd.CommandText = "SELECT fv.Id, fv.UserId, fv.VideoId, v.Id, v.NatureTypeId, v.UserId, v.Season, v.VideoName, v.VideoUrl, v.ClosestMajorCity FROM Video v JOIN FavoriteVideos fv on fv.VideoId = v.Id; WHERE fv.UserId = @id";
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
                         var favoriteVideos = new List<FavoriteVideos>();
@@ -48,7 +48,7 @@ namespace NatureBreaks.Repositories
                                     VideoUrl = reader.GetString(reader.GetOrdinal("VideoUrl")),
                                     ClosestMajorCity = reader.GetString(reader.GetOrdinal("ClosestMajorCity")),
                                 },
-                            UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
+                                UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
                             };
                             favoriteVideos.Add(favoriteVideo);
                         }
@@ -59,7 +59,7 @@ namespace NatureBreaks.Repositories
             }
         }
 
-        public FavoriteVideos GetFavoriteById(int id)
+        public List<FavoriteVideos> GetFavoriteById(int id)
         {
             using (var conn = Connection)
             {
@@ -71,15 +71,15 @@ namespace NatureBreaks.Repositories
  
                         FROM Video v
                         JOIN FavoriteVideos fv on fv.VideoId = v.Id;
-                        WHERE Id = @id;";
+                        WHERE fv.UserId = @id;";
                     cmd.Parameters.AddWithValue("@id", id);
 
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        FavoriteVideos favoriteVideo = null;
-                        if (reader.Read())
+                        List<FavoriteVideos> favoriteVideos = new List<FavoriteVideos>();
+                        while (reader.Read())
                         {
-                            favoriteVideo = new FavoriteVideos()
+                            var favoriteVideo = new FavoriteVideos
                             {
                                 Id = reader.GetInt32(reader.GetOrdinal("Id")),
                                 VideoId = reader.GetInt32(reader.GetOrdinal("VideoId")),
@@ -95,8 +95,9 @@ namespace NatureBreaks.Repositories
                                 },
                                 UserId = reader.GetInt32(reader.GetOrdinal("UserId")),
                             };
+                            favoriteVideos.Add(favoriteVideo);
                         }
-                        return favoriteVideo;
+                        return favoriteVideos;
                     }
                 }
             }
@@ -110,10 +111,9 @@ namespace NatureBreaks.Repositories
                 using (var cmd = conn.CreateCommand())
                 {
                     cmd.CommandText = @"
-                        INSERT INTO FavoriteVideos (Id, UserId, VideoId)
+                        INSERT INTO FavoriteVideos (UserId, VideoId)
                         OUTPUT INSERTED.ID
-                        VALUES (@id, @userid, @videoid)";
-                    cmd.Parameters.AddWithValue("@id", favoriteVideo.Id);
+                        VALUES (@userid, @videoid)";
                     cmd.Parameters.AddWithValue("@videoid", favoriteVideo.VideoId);
                     cmd.Parameters.AddWithValue("@userid", favoriteVideo.UserId);
                     favoriteVideo.Id = (int)cmd.ExecuteScalar();
